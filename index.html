@@ -5,122 +5,116 @@
     <title>Title</title>
     <style type="text/css">
         * {
-            margin: 0;
-            padding: 0;
-            }
+        margin: 0;
+        padding: 0;
+        }
 
-            html, body {
-            max-width: 100vw;
-            }
-            .flip-list-move {
-            transition: transform 0.5s;
-            }
+        html, body {
+        max-width: 100vw;
+        }
 
-            .no-move {
-            transition: transform 0s;
-            }
+        .container-fluid {
+        width: 100vw;
+        min-height: 100vh;
+        max-width: 100vw;
+        padding: 2rem 0;
+        }
 
-            .ghost {
-            opacity: 0.5;
-            background: #c8ebfb;
-            }
+        .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        }
 
-            .container-fluid {
-            width: 100vw;
-            min-height: 100vh;
-            max-width: 100vw;
-            padding: 2rem 0;
-            }
+        .row {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        }
 
-            .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            }
+        .quote-calculation {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        }
 
-            .row {
-            width: 100%;
-            padding: 0;
-            margin: 0;
-            }
+        .small-column, .medium-column {
+        height: 50vh;
+        max-height: 400px;
+        }
 
-            .quote-calculation {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 2rem;
-            }
+        .small-column {
+        width: 20%;
+        }
 
-            .small-column, .medium-column {
-            height: 50vh;
-            max-height: 400px;
-            }
+        .medium-column {
+        width: 28%;
+        }
 
-            .small-column {
-            width: 20%;
-            }
+        .rooms-list-area, .calculation-area, .items-area, .item-type-area {
+        border: 1px solid gray;
+        }
 
-            .medium-column {
-            width: 28%;
-            }
+        .item-type-area {
+        overflow: auto;
+        }
 
-            .rooms-list-area, .calculation-area, .items-area, .item-type-area {
-            border: 1px solid gray;
-            }
+        .room-list, .item-type {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        }
 
-            .item-type-area {
-            overflow: auto;
-            }
+        .room-list li, .item-type li {
+        width: 100%;
+        }
 
-            .room-list, .item-type {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: flex-start;
-            }
+        .room-list a, .room-list a:visited, .item-type a, .item-type a:visited {
+        display: block;
+        text-decoration: none;
+        padding: 1rem;
+        color: black;
+        border-bottom: 1px solid grey;
+        }
 
-            .room-list li, .item-type li {
-            width: 100%;
-            }
+        .room-list a:hover, .item-type a:hover {
+        background-color: lightgrey;
+        color: white;
+        }
 
-            .room-list a, .room-list a:visited, .item-type a, .item-type a:visited {
-            display: block;
-            text-decoration: none;
-            padding: 1rem;
-            color: black;
-            border-bottom: 1px solid grey;
-            }
+        .link-active {
+        background-color: lightgreen;
+        box-shadow: 1px 1px 10px grey inset;
+        }
 
-            .room-list a:hover, .item-type a:hover {
-            background-color: lightgrey;
-            color: white;
-            }
+        .calculation-area, .items-area {
+        overflow-y: scroll;
+        }
 
-            .link-active {
-            background-color: lightgreen;
-            box-shadow: 1px 1px 10px grey inset;
-            }
+        .calculation-items, .moving-items {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        }
 
-            .calculation-items, .moving-items span {
-            height: 100%;
-            width: 100%;
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
-            flex-wrap: wrap;
-            }
+        .calculation-item, .moving-item {
+        padding: 1rem;
+        margin: 1rem;
+        border: 1px solid black;
+        }
 
-            .moving-items {
-            width: 100%;
-            height: 100%;
-            }
-
-            .calculation-item, .moving-item {
-            padding: 1rem;
-            margin: 1rem;
-            border: 1px solid black;
-            }
+        .qtyBadge {
+        padding: 2px 8px;
+        border-radius: 50%;
+        background-color: lightblue;
+        color: white;
+        }
     </style>
 </head>
 <body>
@@ -152,24 +146,39 @@
                     </div>
 
                     <div class="medium-column calculation-area">
-                    <draggable element="span" v-model="calculationList" v-bind="dragOptions" :move="onMove">
-                        <transition-group name="no" class="calculation-items" tag="div">
-                        <div class="calculation-item" v-for="(element, index) in calculationList" :key="index">
-                            {{element.name}}
-                            <span class="badge">{{ itemQuantity(element.name) }}</span>
+                    <h3>Calculation Area</h3>
+                    <draggable
+                        class="dragArea calculation-items"
+                        :list="calculationList"
+                        group="movable-items"
+                        @change="cloned"
+                    >
+                        <div
+                            class="calculation-item"
+                            v-for="(element, index) in itemsInActiveRoom()"
+                            :key="index"
+                        >
+                        {{ element.name }}
+                        <span v-show="element.qty > 1" class="qtyBadge">{{ element.qty }}</span>
                         </div>
-                        </transition-group>
                     </draggable>
                     </div>
 
                     <div class="medium-column items-area">
-                    <draggable class="moving-items" tag="div" v-model="movingList" v-bind="dragOptions" :move="onMove" @start="isDragging=true" @end="isDragging=false">
-                        <transition-group type="transition" :name="'flip-list'">
-                        <div class="moving-item" v-for="(element, index) in movingList" :key="index">
-                            {{element.name}}
-                            <span class="badge">{{element.weight}} lbs</span>
+                    <h3>Moving Items Area</h3>
+                    <draggable
+                        class="dragArea moving-items"
+                        :list="movingList"
+                        :group="{ name: 'movable-items', pull: 'clone', put: false }"
+                        @change="moved"
+                    >
+                        <div
+                            class="moving-item"
+                            v-for="(element, index) in movingList"
+                            :key="index"
+                        >
+                        {{ element.name }}
                         </div>
-                        </transition-group>
                     </draggable>
                     </div>
 
@@ -186,68 +195,9 @@
                 </div>
             </div>
             `,
-
-            data() {
-                return {
-                movingList: [
-                    {name:'chair', weight: 20, area: 4, itemType:'Accessories'},
-                    {name:'table', weight: 40, area: 8, itemType:'Accessories'},
-                    {name:'bed', weight: 40, area: 35, itemType:'Accessories'},
-                    {name:'dresser', weight: 30, area: 4.5, itemType:'Accessories'},
-                    {name:'fridge', weight: 20, area: 4, itemType:'Accessories'}
-                ],
-                movingRoomNo: null,
-                activeRoom: 'Master Bed',
-                activeItemCategory: 'Accessories',
-                itemCategories: ['Accessories', 'Boxes', 'Beds', 'Appliances', 'Electronics', 'Outdoor', 'Home Storage Unit', 'Miscellaneous', 'Sports', 'Soft Furniture & Carpets', 'Tables & Chairs'],
-                calculationList: [],
-                editable: true,
-                isDragging: false,
-                delayedDragging: false
-                };
-            },
-            methods: {
-                // orderList() {
-                //   this.movingList = this.movingList.sort((one, two) => {
-                //     return one.order - two.order;
-                //   });
-                // },
-                onMove({ relatedContext, draggedContext }) {
-                const relatedElement = relatedContext.element;
-                const draggedElement = draggedContext.element;
-                return (
-                    (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
-                );
-                },
-
-                activateRoom(room){
-                this.activeRoom = room
-                },
-
-                activateCategory(category){
-                this.activeItemCategory = category
-                this.filterItems(category)
-                },
-
-                filterItems(category){
-                const filteredMovingList = this.movingList.filter(item=>item.itemType===category)
-                console.log(filteredMovingList)
-                },
-
-                itemQuantity(itemName){
-                let multipleEntry = this.calculationList.filter(item => item.name === itemName)
-                return multipleEntry.length
-                }
-            },
-            computed: {
-                dragOptions() {
-                return {
-                    animation: 0,
-                    group: "description",
-                    disabled: !this.editable,
-                    ghostClass: "ghost"
-                };
-                },
+            display: "Clone",
+            order: 2,
+            computed:{
                 rooms(){
                 if(this.movingRoomNo === 1){
                     return ['Master Bed', 'Kitchen', 'Living Space']
@@ -255,9 +205,11 @@
                     return ['Master Bed', 'Kitchen']
                 }
                 },
+
                 movingListString() {
                 return JSON.stringify(this.movingList, null, 2);
                 },
+
                 calculationListString() {
                 return JSON.stringify(this.calculationList, null, 2);
                 },
@@ -277,27 +229,96 @@
                 }
                 return totalSqft
                 },
-
-                // itemQuantity(itemName){
-                //   let filteredItems = 0
-                //   if(this.calculationList.length > 1){
-                //     filteredItems = this.calculationList.filter(item => item.name === itemName)
-                //   }
-                //
-                //   return filteredItems.length > 1 ? filteredItems.length : 1;
-                // }
             },
-            watch: {
-                isDragging(newValue) {
-                if (newValue) {
-                    this.delayedDragging = true;
-                    return;
+            data() {
+                return {
+                movingList: [
+                    {name:'chair', weight: 20, area: 4, itemType:'Accessories', qty:1},
+                    {name:'table', weight: 40, area: 8, itemType:'Accessories', qty:1},
+                    {name:'bed', weight: 40, area: 35, itemType:'Accessories', qty:1},
+                    {name:'dresser', weight: 30, area: 4.5, itemType:'Accessories', qty:1},
+                    {name:'fridge', weight: 20, area: 4, itemType:'Accessories', qty:1}
+                ],
+                movingRoomNo: null,
+                activeRoom: 'Master Bed',
+                activeItemCategory: 'Accessories',
+                itemCategories: ['Accessories', 'Boxes', 'Beds', 'Appliances', 'Electronics', 'Outdoor', 'Home Storage Unit', 'Miscellaneous', 'Sports', 'Soft Furniture & Carpets', 'Tables & Chairs'],
+                calculationList: [],
+                modCalculationList: [],
+                allItemsCalculation: {},
+                // editable: true,
+                // isDragging: false,
+                // delayedDragging: false
+                };
+            },
+
+            mounted() {
+                if(!(this.activeRoom in this.allItemsCalculation)){
+                this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()] = []
+                console.log(this.allItemsCalculation)
                 }
-                this.$nextTick(() => {
-                    this.delayedDragging = false;
-                });
+            },
+
+            methods: {
+                cloned(evt) {
+                if(this.calculationList.length > 1){
+                    let duplicateItems = this.calculationList.filter(item => item.name === evt.added.element.name)
+                    if(duplicateItems.length > 1){
+                    const uniqueItem = this.calculationList.find(item => item.name === evt.added.element.name)
+                    uniqueItem.qty = duplicateItems.length
+
+                    const oldUniqueItem = this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].find(item => item.name === evt.added.element.name)
+                    if(oldUniqueItem){
+                        this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].splice(this.modCalculationList.indexOf(oldUniqueItem), 1, uniqueItem)
+                    }else{
+                        this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].push(uniqueItem)
+                    }
+                    }else{
+                    this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].push(evt.added.element)
+                    }
+                }else{
+                    this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].push(evt.added.element)
                 }
-            }
+
+                if(this.activeRoom.trim().replace(' ', '_').toLowerCase() in this.allItemsCalculation) {
+                    this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()] = this.modCalculationList
+                }
+                console.log(this.calculationList)
+                console.log(this.allItemsCalculation)
+                },
+
+                moved(evt){
+                console.log(evt)
+                },
+
+                activateRoom(room){
+                this.activeRoom = room
+                if(!(room in this.allItemsCalculation)){
+                    this.allItemsCalculation[room.trim().replace(' ', '_').toLowerCase()] = []
+                }
+
+                console.log(this.allItemsCalculation)
+                },
+
+                activateCategory(category){
+                this.activeItemCategory = category
+                this.filterItems(category)
+                },
+
+                filterItems(category){
+                const filteredMovingList = this.movingList.filter(item=>item.itemType===category)
+                console.log(filteredMovingList)
+                },
+
+                itemQuantity(itemName){
+                let multipleEntry = this.calculationList.filter(item => item.name === itemName)
+                return multipleEntry.length
+                },
+
+                itemsInActiveRoom(){
+                return this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()]
+                }
+            },
         })
         new Vue({
             el: '#root',
