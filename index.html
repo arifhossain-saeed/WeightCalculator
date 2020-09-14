@@ -138,62 +138,62 @@
             template:`
             <div class="container-fluid">
                 <div class="container">
-                <div class="row quote-calculation">
+                  <div class="row quote-calculation">
                     <div class="small-column rooms-list-area">
-                    <ul class="room-list">
+                      <ul class="room-list">
                         <li v-for="(room, index) in rooms" :key="index"><a href="#" @click="activateRoom(room)"  :class="activeRoom === room ?'link-active':''">{{ room }}</a></li>
-                    </ul>
+                      </ul>
                     </div>
 
                     <div class="medium-column calculation-area">
-                    <h3>Calculation Area</h3>
-                    <draggable
-                        class="dragArea calculation-items"
-                        :list="calculationList"
-                        group="movable-items"
-                        @change="cloned"
-                    >
+                      <h3>Calculation Area</h3>
+                      <draggable
+                          class="dragArea calculation-items"
+                          :list="calculationList"
+                          group="movable-items"
+                          @change="cloned"
+                      >
                         <div
                             class="calculation-item"
-                            v-for="(element, index) in itemsInActiveRoom()"
+                            v-for="(element, index) in activeRoomItems()"
                             :key="index"
                         >
-                        {{ element.name }}
-                        <span v-show="element.qty > 1" class="qtyBadge">{{ element.qty }}</span>
+                          {{ element.item.name }}
+                          <span v-show="element.qty > 1" class="qtyBadge">{{ element.qty }}</span>
                         </div>
-                    </draggable>
+                      </draggable>
                     </div>
 
                     <div class="medium-column items-area">
-                    <h3>Moving Items Area</h3>
-                    <draggable
-                        class="dragArea moving-items"
-                        :list="movingList"
-                        :group="{ name: 'movable-items', pull: 'clone', put: false }"
-                        @change="moved"
-                    >
+                      <h3>Moving Items Area</h3>
+                      <draggable
+                          class="dragArea moving-items"
+                          :list="movingList"
+                          :group="{ name: 'movable-items', pull: 'clone', put: false }"
+                          @change="moved"
+                      >
                         <div
                             class="moving-item"
                             v-for="(element, index) in movingList"
                             :key="index"
                         >
-                        {{ element.name }}
+                          {{ element.name }}
                         </div>
-                    </draggable>
+                      </draggable>
                     </div>
 
                     <div class="small-column item-type-area">
-                    <ul class="item-type">
+                      <ul class="item-type">
                         <li v-for="(category, index) in itemCategories" :key="index"><a href="#" @click="activateCategory(category)" :class="activeItemCategory === category ? 'link-active':''">{{ category }}</a></li>
-                    </ul>
+                      </ul>
                     </div>
-                </div>
+                  </div>
 
-                <div class="row">
+                  <div class="row">
                     <p>Total Weight: <strong>{{ getTotalCalculatedWeight }}</strong> lbs; Total Sqft: <strong>{{ getTotalSqft }}</strong></p>
+                  </div>
                 </div>
-                </div>
-            </div>
+              </div>
             `,
             display: "Clone",
             order: 2,
@@ -232,93 +232,103 @@
             },
             data() {
                 return {
-                movingList: [
-                    {name:'chair', weight: 20, area: 4, itemType:'Accessories', qty:1},
-                    {name:'table', weight: 40, area: 8, itemType:'Accessories', qty:1},
-                    {name:'bed', weight: 40, area: 35, itemType:'Accessories', qty:1},
-                    {name:'dresser', weight: 30, area: 4.5, itemType:'Accessories', qty:1},
-                    {name:'fridge', weight: 20, area: 4, itemType:'Accessories', qty:1}
-                ],
-                movingRoomNo: null,
-                activeRoom: 'Master Bed',
-                activeItemCategory: 'Accessories',
-                itemCategories: ['Accessories', 'Boxes', 'Beds', 'Appliances', 'Electronics', 'Outdoor', 'Home Storage Unit', 'Miscellaneous', 'Sports', 'Soft Furniture & Carpets', 'Tables & Chairs'],
-                calculationList: [],
-                modCalculationList: [],
-                allItemsCalculation: {},
-                // editable: true,
-                // isDragging: false,
-                // delayedDragging: false
+                  movingList: [
+                    {name:'chair', weight: 20, area: 4, itemType:'Accessories'},
+                    {name:'table', weight: 40, area: 8, itemType:'Accessories'},
+                    {name:'bed', weight: 40, area: 35, itemType:'Accessories'},
+                    {name:'dresser', weight: 30, area: 4.5, itemType:'Accessories'},
+                    {name:'fridge', weight: 20, area: 4, itemType:'Accessories'}
+                  ],
+                  movingRoomNo: null,
+                  activeRoom: 'Master Bed',
+                  activeItemCategory: 'Accessories',
+                  itemCategories: ['Accessories', 'Boxes', 'Beds', 'Appliances', 'Electronics', 'Outdoor', 'Home Storage Unit', 'Miscellaneous', 'Sports', 'Soft Furniture & Carpets', 'Tables & Chairs'],
+                  calculationList: [],
+                  modCalculationList: [],
+                  allItemsCalculation: {
+                    master_bed: [],
+                    child_bed: [],
+                    guest_bed: [],
+                    living_room: [],
+                    kitchen: [],
+                    studio: []
+                  },
+                  // editable: true,
+                  // isDragging: false,
+                  // delayedDragging: false
                 };
-            },
+              },
 
-            mounted() {
-                if(!(this.activeRoom in this.allItemsCalculation)){
-                this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()] = []
-                console.log(this.allItemsCalculation)
-                }
-            },
+              mounted() {
+                // if(!(this.activeRoom in this.allItemsCalculation)){
+                //   this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()] = []
+                //   console.log(this.allItemsCalculation)
+                // }
 
-            methods: {
+                // for(let room in this.allItemsCalculation){
+                //   console.log(room)
+                // }
+              },
+
+              methods: {
                 cloned(evt) {
-                if(this.calculationList.length > 1){
-                    let duplicateItems = this.calculationList.filter(item => item.name === evt.added.element.name)
-                    if(duplicateItems.length > 1){
-                    const uniqueItem = this.calculationList.find(item => item.name === evt.added.element.name)
-                    uniqueItem.qty = duplicateItems.length
-
-                    const oldUniqueItem = this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].find(item => item.name === evt.added.element.name)
-                    if(oldUniqueItem){
-                        this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].splice(this.modCalculationList.indexOf(oldUniqueItem), 1, uniqueItem)
+                  console.log(this.activeRoom)
+                  if(this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].length > 0){
+                    const existingItem = this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].find(element => element.item.name === evt.added.element.name)
+                    if(existingItem){
+                      existingItem.qty += 1
                     }else{
-                        this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].push(uniqueItem)
+                      let addingItem = {
+                        item: evt.added.element,
+                        qty: 1
+                      }
+                      this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].push(addingItem)
                     }
-                    }else{
-                    this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].push(evt.added.element)
+                  }else{
+                    let addingItem = {
+                      item: evt.added.element,
+                      qty: 1
                     }
-                }else{
-                    this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].push(evt.added.element)
-                }
-
-                if(this.activeRoom.trim().replace(' ', '_').toLowerCase() in this.allItemsCalculation) {
-                    this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()] = this.modCalculationList
-                }
-                console.log(this.calculationList)
-                console.log(this.allItemsCalculation)
+                    this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].push(addingItem)
+                  }
+                  // console.log(this.calculationList)
+                  console.log(this.allItemsCalculation)
                 },
 
                 moved(evt){
-                console.log(evt)
+                  console.log(evt)
                 },
 
                 activateRoom(room){
-                this.activeRoom = room
-                if(!(room in this.allItemsCalculation)){
-                    this.allItemsCalculation[room.trim().replace(' ', '_').toLowerCase()] = []
-                }
+                  this.activeRoom = room
+                  // if(!(room.trim().replace(' ', '_').toLowerCase() in this.allItemsCalculation)){
+                  //   this.allItemsCalculation[room.trim().replace(' ', '_').toLowerCase()] = []
+                  // }
 
-                console.log(this.allItemsCalculation)
+                  // this.itemsInActiveRoom()
+
+                  console.log(this.allItemsCalculation)
                 },
 
                 activateCategory(category){
-                this.activeItemCategory = category
-                this.filterItems(category)
+                  this.activeItemCategory = category
+                  this.filterItems(category)
                 },
 
                 filterItems(category){
-                const filteredMovingList = this.movingList.filter(item=>item.itemType===category)
-                console.log(filteredMovingList)
+                  const filteredMovingList = this.movingList.filter(item=>item.itemType===category)
+                  console.log(filteredMovingList)
                 },
 
                 itemQuantity(itemName){
-                let multipleEntry = this.calculationList.filter(item => item.name === itemName)
-                return multipleEntry.length
+                  let multipleEntry = this.calculationList.filter(item => item.name === itemName)
+                  return multipleEntry.length
                 },
 
-                itemsInActiveRoom(){
-                return this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()]
+                activeRoomItems(){
+                  return this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()]
                 }
-            },
+              },
         })
         new Vue({
             el: '#root',
