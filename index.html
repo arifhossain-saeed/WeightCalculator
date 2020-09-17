@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Weight Calculator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./assets/fonts/icon-fonts/flaticon.css">
+
     <style type="text/css">
         * {
         margin: 0;
@@ -116,6 +118,13 @@
         background-color: lightblue;
         color: white;
         }
+        
+        [class^="flaticon-"]:before, [class*=" flaticon-"]:before, [class^="flaticon-"]:after, [class*=" flaticon-"]:after {
+          font-family: Flaticon;
+          font-size: 2rem;
+          font-style: normal;
+          margin-left: 0;
+        }
     </style>
 </head>
 <body>
@@ -138,63 +147,65 @@
         Vue.component('WeightCalculator', {
             template:`
             <div class="container-fluid">
-                <div class="container">
-                  <div class="row quote-calculation">
-                    <div class="small-column rooms-list-area">
-                      <ul class="room-list">
-                        <li v-for="(room, index) in rooms" :key="index"><a href="#" @click="activateRoom(room)"  :class="activeRoom === room ?'link-active':''">{{ room }}</a></li>
-                      </ul>
-                    </div>
-
-                    <div class="medium-column calculation-area">
-                      <h3>Calculation Area</h3>
-                      <draggable
-                          class="dragArea calculation-items"
-                          :list="calculationList"
-                          group="movable-items"
-                          @change="cloned"
-                      >
-                        <div
-                            class="calculation-item"
-                            v-for="(element, index) in activeRoomItems()"
-                            :key="index"
-                        >
-                          {{ element.item.name }}
-                          <span v-show="element.qty > 1" class="qtyBadge">{{ element.qty }}</span>
-                        </div>
-                      </draggable>
-                    </div>
-
-                    <div class="medium-column items-area">
-                      <h3>Moving Items Area</h3>
-                      <draggable
-                          class="dragArea moving-items"
-                          :list="movingList"
-                          :group="{ name: 'movable-items', pull: 'clone', put: false }"
-                          @change="moved"
-                      >
-                        <div
-                            class="moving-item"
-                            v-for="(element, index) in movingList"
-                            :key="index"
-                        >
-                          {{ element.name }}
-                        </div>
-                      </draggable>
-                    </div>
-
-                    <div class="small-column item-type-area">
-                      <ul class="item-type">
-                        <li v-for="(category, index) in itemCategories" :key="index"><a href="#" @click="activateCategory(category)" :class="activeItemCategory === category ? 'link-active':''">{{ category }}</a></li>
-                      </ul>
-                    </div>
+              <div class="container">
+                <div class="row quote-calculation">
+                  <div class="small-column rooms-list-area">
+                    <ul class="room-list">
+                      <li v-for="(room, index) in rooms" :key="index"><a href="#" @click="activateRoom(room)"  :class="activeRoom === room ?'link-active':''">{{ room }}</a></li>
+                    </ul>
                   </div>
 
-                  <div class="row">
-                    <p>Total Weight: <strong>{{ getTotalCalculatedWeight }}</strong> lbs; Total Sqft: <strong>{{ getTotalSqft }}</strong></p>
+                  <div class="medium-column calculation-area">
+                    <h3>Calculation Area</h3>
+                    <draggable
+                        class="dragArea calculation-items"
+                        :list="calculationList"
+                        group="movable-items"
+                        @change="cloned"
+                    >
+                      <div
+                          class="calculation-item"
+                          v-for="(element, index) in activeRoomItems()"
+                          :key="index"
+                      >
+                        <!--{{ element.item.name }}-->
+                        <i :class="element.item.iconClass"></i>
+                        <span v-show="element.qty > 1" class="qtyBadge">{{ element.qty }}</span>
+                      </div>
+                    </draggable>
+                  </div>
+
+                  <div class="medium-column items-area">
+                    <h3>Moving Items Area</h3>
+                    <draggable
+                        class="dragArea moving-items"
+                        :list="movingList"
+                        :group="{ name: 'movable-items', pull: 'clone', put: false }"
+                        @change="moved"
+                    >
+                      <div
+                          class="moving-item"
+                          v-for="(element, index) in filterItems()"
+                          :key="index"
+                      >
+          <!--              {{ element.name }}-->
+                          <i :class="element.iconClass"></i>
+                      </div>
+                    </draggable>
+                  </div>
+
+                  <div class="small-column item-type-area">
+                    <ul class="item-type">
+                      <li v-for="(category, index) in itemCategories" :key="index"><a href="#" @click="activateCategory(category)" :class="activeItemCategory === category ? 'link-active':''">{{ category }}</a></li>
+                    </ul>
                   </div>
                 </div>
+
+                <div class="row">
+                  <p>Total Weight: <strong>{{ getTotalCalculatedWeight }}</strong> lbs; Total Sqft: <strong>{{ getTotalSqft }}</strong></p>
+                </div>
               </div>
+            </div>
             `,
             display: "Clone",
             order: 2,
@@ -234,11 +245,13 @@
             data() {
                 return {
                   movingList: [
-                    {name:'chair', weight: 20, area: 4, itemType:'Accessories'},
-                    {name:'table', weight: 40, area: 8, itemType:'Accessories'},
-                    {name:'bed', weight: 40, area: 35, itemType:'Accessories'},
-                    {name:'dresser', weight: 30, area: 4.5, itemType:'Accessories'},
-                    {name:'fridge', weight: 20, area: 4, itemType:'Accessories'}
+                  {name:'chair', iconClass:'flaticon-chair', weight: 20, area: 4, itemType:'Accessories'},
+                  {name:'table', iconClass:'flaticon-desk', weight: 40, area: 8, itemType:'Accessories'},
+                  {name:'bed', iconClass:'flaticon-bed', weight: 40, area: 35, itemType:'Accessories'},
+                  {name:'dresser', iconClass:'flaticon-wardrobe', weight: 30, area: 4.5, itemType:'Accessories'},
+                  {name:'fridge', iconClass:'flaticon-refrigerator', weight: 20, area: 4, itemType:'Accessories'},
+                  {name:'table lamp', iconClass:'flaticon-table-lamp', weight: 30, area: 4.5, itemType:'Appliances'},
+                  {name:'microwave oven', iconClass:'flaticon-microwave', weight: 20, area: 4, itemType:'Appliances'}
                   ],
                   movingRoomNo: null,
                   activeRoom: 'Master Bed',
@@ -313,12 +326,13 @@
 
                 activateCategory(category){
                   this.activeItemCategory = category
-                  this.filterItems(category)
+                  this.filterItems()
                 },
 
-                filterItems(category){
-                  const filteredMovingList = this.movingList.filter(item=>item.itemType===category)
-                  console.log(filteredMovingList)
+                filterItems(){
+                  const filteredMovingList = this.movingList.filter(item=>item.itemType===this.activeItemCategory)
+                  return filteredMovingList
+                  // console.log(filteredMovingList)
                 },
 
                 itemQuantity(itemName){
