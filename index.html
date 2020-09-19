@@ -7,119 +7,361 @@
     <link rel="stylesheet" href="./assets/fonts/icon-fonts/flaticon.css">
 
     <style type="text/css">
+        #root {
+          font-family: "Avenir", Helvetica, Arial, sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          color: #2c3e50;
+        }
+
+        #root .logo {
+          text-align: center;
+        }
+
         * {
-        margin: 0;
-        padding: 0;
+          margin: 0;
+          padding: 0;
         }
 
         html, body {
-        max-width: 100vw;
+          max-width: 100vw;
         }
 
         .container-fluid {
-        width: 100vw;
-        min-height: 100vh;
-        max-width: 100vw;
-        padding: 2rem 0;
+          width: 100vw;
+          min-height: 100vh;
+          max-width: 100vw;
+          padding: 2rem 0;
         }
 
         .container {
-        width: 90%;
-        max-width: 1200px;
-        margin: 0 auto;
+          width: 90%;
+          max-width: 1200px;
+          margin: 0 auto;
         }
 
         .row {
-        width: 100%;
-        padding: 0;
-        margin: 0;
+          width: 100%;
+          padding: 0;
+          margin: 0;
         }
 
         .quote-calculation {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 2rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 2rem;
         }
 
         .small-column, .medium-column {
-        height: 50vh;
-        max-height: 400px;
+          height: 50vh;
+          max-height: 400px;
         }
 
         .small-column {
-        width: 20%;
+          width: 20%;
         }
 
         .medium-column {
-        width: 28%;
+          width: 28%;
         }
 
         .rooms-list-area, .calculation-area, .items-area, .item-type-area {
-        border: 1px solid gray;
+          border: 1px solid gray;
         }
 
         .item-type-area {
-        overflow: auto;
+          overflow: auto;
         }
 
         .room-list, .item-type {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-start;
         }
 
         .room-list li, .item-type li {
-        width: 100%;
+          width: 100%;
         }
 
         .room-list a, .room-list a:visited, .item-type a, .item-type a:visited {
-        display: block;
-        text-decoration: none;
-        padding: 1rem;
-        color: black;
-        border-bottom: 1px solid grey;
+          display: block;
+          text-decoration: none;
+          padding: 1rem;
+          color: black;
+          border-bottom: 1px solid grey;
         }
 
         .room-list a:hover, .item-type a:hover {
-        background-color: lightgrey;
-        color: white;
+          background-color: lightgrey;
+          color: white;
         }
 
         .link-active {
-        background-color: lightgreen;
-        box-shadow: 1px 1px 10px grey inset;
+          background-color: lightgreen;
+          box-shadow: 1px 1px 10px grey inset;
         }
 
         .calculation-area, .items-area {
-        overflow-y: scroll;
+          overflow-y: scroll;
         }
 
         .calculation-items, .moving-items {
-        height: 100%;
-        width: 100%;
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        flex-wrap: wrap;
+          height: 100%;
+          width: 100%;
+          display: flex;
+          align-items: flex-start;
+          justify-content: flex-start;
+          flex-wrap: wrap;
         }
 
-        .calculation-item, .moving-item {
-        padding: 1rem;
-        margin: 1rem;
-        border: 1px solid black;
+        .calculation-item {
+          display: block;
+          width: 46px;
+          height: 46px;
+          margin: 1rem 1rem 0 1rem;
+          border: 1px solid black;
+          border-radius: 5px;
+          background: url("assets/sprite.gif");
         }
+
+        .item-display {
+          display: block;
+          width: 46px;
+          height: 46px;
+          margin: 1rem 1rem 0 1rem;
+          border: 1px solid black;
+          border-radius: 5px;
+          background: url("assets/sprite.gif");
+        }
+
+        .icon-1 {background-position: 0px -0px}
+        .icon-2 {background-position: 0px -46px}
+        .icon-3 {background-position: 0px -92px}
+        .icon-4 {background-position: 0px -138px}
+        .icon-5 {background-position: 0px -184px}
+        .icon-6 {background-position: 0px -230px}
+        .icon-7 {background-position: 0px -276px}
+        .icon-8 {background-position: 0px -322px}
+        .icon-9 {background-position: 0px -368px}
+        .icon-10 {background-position: 0px -414px}
+        .icon-11 {background-position: 0px -460px}
+        .icon-12 {background-position: 0px -506px}
+        .icon-13 {background-position: 0px -552px}
+        .icon-14 {background-position: 0px -598px}
+        .icon-15 {background-position: 0px -644px}
+        .icon-16 {background-position: 0px -690px}
+        .icon-17 {background-position: 0px -736px}
+        .icon-18 {background-position: 0px -782px}
+        .icon-19 {background-position: 0px -828px}
+        .icon-20 {background-position: 0px -874px}
+        .icon-21 {background-position: 0px -920px}
+        .icon-22 {background-position: 0px -966px}
+        .icon-23 {background-position: 0px -1012px}
+        .icon-24 {background-position: 0px -1058px}
+        .icon-59 {background-position: 0px -1104px}
+        .icon-60 {background-position: 0px -1150px}
+        .icon-61 {background-position: 0px -1196px}
+        .icon-62 {background-position: 0px -1242px}
+        .icon-63 {background-position: 0px -1288px}
+        .icon-64 {background-position: 0px -1334px}
+        .icon-65 {background-position: 0px -1380px}
+        .icon-44 {background-position: 0px -1426px}
+        .icon-45 {background-position: 0px -1472px}
+        .icon-46 {background-position: 0px -1518px}
+        .icon-47 {background-position: 0px -1564px}
+        .icon-48 {background-position: 0px -1610px}
+        .icon-49 {background-position: 0px -1656px}
+        .icon-50 {background-position: 0px -1702px}
+        .icon-51 {background-position: 0px -1748px}
+        .icon-52 {background-position: 0px -1794px}
+        .icon-53 {background-position: 0px -1840px}
+        .icon-54 {background-position: 0px -1886px}
+        .icon-55 {background-position: 0px -1932px}
+        .icon-56 {background-position: 0px -1978px}
+        .icon-57 {background-position: 0px -2024px}
+        .icon-58 {background-position: 0px -2070px}
+        .icon-25 {background-position: 0px -2116px}
+        .icon-26 {background-position: 0px -2162px}
+        .icon-27 {background-position: 0px -2208px}
+        .icon-28 {background-position: 0px -2254px}
+        .icon-29 {background-position: 0px -2300px}
+        .icon-30 {background-position: 0px -2346px}
+        .icon-31 {background-position: 0px -2392px}
+        .icon-32 {background-position: 0px -2438px}
+        .icon-33 {background-position: 0px -2484px}
+        .icon-34 {background-position: 0px -2530px}
+        .icon-36 {background-position: 0px -2576px}
+        .icon-38 {background-position: 0px -2622px}
+        .icon-39 {background-position: 0px -2668px}
+        .icon-40 {background-position: 0px -2714px}
+        .icon-41 {background-position: 0px -2760px}
+        .icon-42 {background-position: 0px -2806px}
+        .icon-43 {background-position: 0px -2852px}
+        .icon-78 {background-position: 0px -2898px}
+        .icon-79 {background-position: 0px -2944px}
+        .icon-80 {background-position: 0px -2990px}
+        .icon-81 {background-position: 0px -3036px}
+        .icon-82 {background-position: 0px -3082px}
+        .icon-83 {background-position: 0px -3128px}
+        .icon-84 {background-position: 0px -3174px}
+        .icon-85 {background-position: 0px -3220px}
+        .icon-86 {background-position: 0px -3266px}
+        .icon-87 {background-position: 0px -3312px}
+        .icon-146 {background-position: 0px -3358px}
+        .icon-147 {background-position: 0px -3404px}
+        .icon-148 {background-position: 0px -3450px}
+        .icon-149 {background-position: 0px -3496px}
+        .icon-151 {background-position: 0px -3542px}
+        .icon-152 {background-position: 0px -3588px}
+        .icon-153 {background-position: 0px -3634px}
+        .icon-155 {background-position: 0px -3680px}
+        .icon-156 {background-position: 0px -3726px}
+        .icon-157 {background-position: 0px -3772px}
+        .icon-158 {background-position: 0px -3818px}
+        .icon-159 {background-position: 0px -3864px}
+        .icon-160 {background-position: 0px -3910px}
+        .icon-161 {background-position: 0px -3956px}
+        .icon-162 {background-position: 0px -4002px}
+        .icon-163 {background-position: 0px -4048px}
+        .icon-164 {background-position: 0px -4094px}
+        .icon-165 {background-position: 0px -4140px}
+        .icon-166 {background-position: 0px -4186px}
+        .icon-167 {background-position: 0px -4232px}
+        .icon-168 {background-position: 0px -4278px}
+        .icon-169 {background-position: 0px -4324px}
+        .icon-170 {background-position: 0px -4370px}
+        .icon-171 {background-position: 0px -4416px}
+        .icon-172 {background-position: 0px -4462px}
+        .icon-173 {background-position: 0px -4508px}
+        .icon-88 {background-position: 0px -4554px}
+        .icon-89 {background-position: 0px -4600px}
+        .icon-90 {background-position: 0px -4646px}
+        .icon-91 {background-position: 0px -4692px}
+        .icon-92 {background-position: 0px -4738px}
+        .icon-93 {background-position: 0px -4784px}
+        .icon-94 {background-position: 0px -4830px}
+        .icon-95 {background-position: 0px -4876px}
+        .icon-96 {background-position: 0px -4922px}
+        .icon-97 {background-position: 0px -4968px}
+        .icon-98 {background-position: 0px -5014px}
+        .icon-99 {background-position: 0px -5060px}
+        .icon-100 {background-position: 0px -5106px}
+        .icon-101 {background-position: 0px -5152px}
+        .icon-102 {background-position: 0px -5198px}
+        .icon-103 {background-position: 0px -5244px}
+        .icon-104 {background-position: 0px -5290px}
+        .icon-105 {background-position: 0px -5336px}
+        .icon-106 {background-position: 0px -5382px}
+        .icon-107 {background-position: 0px -5428px}
+        .icon-108 {background-position: 0px -5474px}
+        .icon-109 {background-position: 0px -5520px}
+        .icon-110 {background-position: 0px -5566px}
+        .icon-111 {background-position: 0px -5612px}
+        .icon-112 {background-position: 0px -5658px}
+        .icon-113 {background-position: 0px -5704px}
+        .icon-114 {background-position: 0px -5750px}
+        .icon-115 {background-position: 0px -5796px}
+        .icon-116 {background-position: 0px -5842px}
+        .icon-117 {background-position: 0px -5888px}
+        .icon-118 {background-position: 0px -5934px}
+        .icon-119 {background-position: 0px -5980px}
+        .icon-120 {background-position: 0px -6026px}
+        .icon-121 {background-position: 0px -6072px}
+        .icon-122 {background-position: 0px -6118px}
+        .icon-123 {background-position: 0px -6164px}
+        .icon-124 {background-position: 0px -6210px}
+        .icon-125 {background-position: 0px -6256px}
+        .icon-126 {background-position: 0px -6302px}
+        .icon-127 {background-position: 0px -6348px}
+        .icon-128 {background-position: 0px -6394px}
+        .icon-129 {background-position: 0px -6440px}
+        .icon-130 {background-position: 0px -6486px}
+        .icon-131 {background-position: 0px -6532px}
+        .icon-132 {background-position: 0px -6578px}
+        .icon-133 {background-position: 0px -6624px}
+        .icon-134 {background-position: 0px -6670px}
+        .icon-135 {background-position: 0px -6716px}
+        .icon-136 {background-position: 0px -6762px}
+        .icon-137 {background-position: 0px -6808px}
+        .icon-138 {background-position: 0px -6854px}
+        .icon-139 {background-position: 0px -6900px}
+        .icon-140 {background-position: 0px -6946px}
+        .icon-141 {background-position: 0px -6992px}
+        .icon-142 {background-position: 0px -7038px}
+        .icon-143 {background-position: 0px -7084px}
+        .icon-144 {background-position: 0px -7130px}
+        .icon-145 {background-position: 0px -7176px}
+        .icon-184 {background-position: 0px -7222px}
+        .icon-185 {background-position: 0px -7268px}
+        .icon-186 {background-position: 0px -7314px}
+        .icon-187 {background-position: 0px -7360px}
+        .icon-188 {background-position: 0px -7406px}
+        .icon-189 {background-position: 0px -7452px}
+        .icon-190 {background-position: 0px -7498px}
+        .icon-191 {background-position: 0px -7544px}
+        .icon-192 {background-position: 0px -7590px}
+        .icon-193 {background-position: 0px -7636px}
+        .icon-194 {background-position: 0px -7682px}
+        .icon-195 {background-position: 0px -7728px}
+        .icon-196 {background-position: 0px -7774px}
+        .icon-197 {background-position: 0px -7820px}
+        .icon-198 {background-position: 0px -7866px}
+        .icon-199 {background-position: 0px -7912px}
+        .icon-200 {background-position: 0px -7958px}
+        .icon-201 {background-position: 0px -8004px}
+        .icon-174 {background-position: 0px -8050px}
+        .icon-175 {background-position: 0px -8096px}
+        .icon-176 {background-position: 0px -8142px}
+        .icon-177 {background-position: 0px -8188px}
+        .icon-178 {background-position: 0px -8234px}
+        .icon-179 {background-position: 0px -8280px}
+        .icon-180 {background-position: 0px -8326px}
+        .icon-181 {background-position: 0px -8372px}
+        .icon-182 {background-position: 0px -8418px}
+        .icon-183 {background-position: 0px -8464px}
+        .icon-66 {background-position: 0px -8510px}
+        .icon-67 {background-position: 0px -8556px}
+        .icon-68 {background-position: 0px -8602px}
+        .icon-69 {background-position: 0px -8648px}
+        .icon-70 {background-position: 0px -8694px}
+        .icon-71 {background-position: 0px -8740px}
+        .icon-72 {background-position: 0px -8786px}
+        .icon-73 {background-position: 0px -8832px}
+        .icon-74 {background-position: 0px -8878px}
+        .icon-75 {background-position: 0px -8924px}
+        .icon-76 {background-position: 0px -8970px}
+        .icon-77 {background-position: 0px -9016px}
+        .icon-202 {background-position: 0px -9062px}
+        .icon-203 {background-position: 0px -9108px}
+        .icon-204 {background-position: 0px -9154px}
+        .icon-205 {background-position: 0px -9200px}
+        .icon-206 {background-position: 0px -9246px}
+        .icon-207 {background-position: 0px -9292px}
+        .icon-208 {background-position: 0px -9338px}
+        .icon-209 {background-position: 0px -9384px}
+        .icon-210 {background-position: 0px -9430px}
+        .icon-211 {background-position: 0px -9476px}
+        .icon-212 {background-position: 0px -9522px}
+        .icon-213 {background-position: 0px -9568px}
+        .icon-214 {background-position: 0px -9614px}
+        .icon-215 {background-position: 0px -9660px}
 
         .qtyBadge {
-        padding: 2px 8px;
-        border-radius: 50%;
-        background-color: lightblue;
-        color: white;
+          padding: 2px 8px;
+          border-radius: 50%;
+          background-color: lightblue;
+          color: white;
+          margin-top: -92px;
+          margin-left: 46px;
         }
-        
-        [class^="flaticon-"]:before, [class*=" flaticon-"]:before, [class^="flaticon-"]:after, [class*=" flaticon-"]:after {
+
+        [class^="flaticon-"]:before,
+        [class*=" flaticon-"]:before,
+        [class^="flaticon-"]:after,
+        [class*=" flaticon-"]:after {
           font-family: Flaticon;
           font-size: 2rem;
           font-style: normal;
@@ -151,25 +393,23 @@
                 <div class="row quote-calculation">
                   <div class="small-column rooms-list-area">
                     <ul class="room-list">
-                      <li v-for="(room, index) in rooms" :key="index"><a href="#" @click="activateRoom(room)"  :class="activeRoom === room ?'link-active':''">{{ room }}</a></li>
+                      <li v-for="(room, index) in rooms" :key="index">
+                        <a href="#" @click="activateRoom(room)" :class="activeRoom === room ?'link-active':''"> {{ room }}</a>
+                      </li>
                     </ul>
                   </div>
 
                   <div class="medium-column calculation-area">
                     <h3>Calculation Area</h3>
                     <draggable
-                        class="dragArea calculation-items"
-                        :list="calculationList"
-                        group="movable-items"
-                        @change="cloned"
+                      class="dragArea calculation-items"
+                      :list="calculationList"
+                      group="movable-items"
+                      @change="cloned"
                     >
-                      <div
-                          class="calculation-item"
-                          v-for="(element, index) in activeRoomItems()"
-                          :key="index"
-                      >
+                      <div v-for="(element, index) in itemsInActiveRoom" :key="index">
                         <!--{{ element.item.name }}-->
-                        <i :class="element.item.iconClass"></i>
+                        <span class="calculation-item" :class="element.item.iconClass"></span>
                         <span v-show="element.qty > 1" class="qtyBadge">{{ element.qty }}</span>
                       </div>
                     </draggable>
@@ -178,25 +418,31 @@
                   <div class="medium-column items-area">
                     <h3>Moving Items Area</h3>
                     <draggable
-                        class="dragArea moving-items"
-                        :list="movingList"
-                        :group="{ name: 'movable-items', pull: 'clone', put: false }"
-                        @change="moved"
+                      class="dragArea moving-items"
+                      :list="movingList"
+                      :group="{ name: 'movable-items', pull: 'clone', put: false }"
+                      @change="moved"
                     >
                       <div
-                          class="moving-item"
-                          v-for="(element, index) in filterItems()"
-                          :key="index"
+                        class="moving-item"
+                        v-for="(element, index) in movingList"
+                        :key="index"
                       >
-          <!--              {{ element.name }}-->
-                          <i :class="element.iconClass"></i>
+                        <div v-show="element.itemType === activeItemCategory">
+                          <!--{{ element.name }}-->
+                          <span class="item-display" :class="element.iconClass"></span>
+                        </div>
+
                       </div>
                     </draggable>
                   </div>
 
                   <div class="small-column item-type-area">
                     <ul class="item-type">
-                      <li v-for="(category, index) in itemCategories" :key="index"><a href="#" @click="activateCategory(category)" :class="activeItemCategory === category ? 'link-active':''">{{ category }}</a></li>
+                      <li v-for="(category, index) in itemCategories" :key="index">
+                        <a href="#" @click="activateCategory(category)"
+                          :class="activeItemCategory === category ? 'link-active':''">{{ category }}</a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -243,107 +489,237 @@
                 },
             },
             data() {
-                return {
-                  movingList: [
-                  {name:'chair', iconClass:'flaticon-chair', weight: 20, area: 4, itemType:'Accessories'},
-                  {name:'table', iconClass:'flaticon-desk', weight: 40, area: 8, itemType:'Accessories'},
-                  {name:'bed', iconClass:'flaticon-bed', weight: 40, area: 35, itemType:'Accessories'},
-                  {name:'dresser', iconClass:'flaticon-wardrobe', weight: 30, area: 4.5, itemType:'Accessories'},
-                  {name:'fridge', iconClass:'flaticon-refrigerator', weight: 20, area: 4, itemType:'Accessories'},
-                  {name:'table lamp', iconClass:'flaticon-table-lamp', weight: 30, area: 4.5, itemType:'Appliances'},
-                  {name:'microwave oven', iconClass:'flaticon-microwave', weight: 20, area: 4, itemType:'Appliances'}
-                  ],
-                  movingRoomNo: null,
-                  activeRoom: 'Master Bed',
-                  activeItemCategory: 'Accessories',
-                  itemCategories: ['Accessories', 'Boxes', 'Beds', 'Appliances', 'Electronics', 'Outdoor', 'Home Storage Unit', 'Miscellaneous', 'Sports', 'Soft Furniture & Carpets', 'Tables & Chairs'],
-                  calculationList: [],
-                  modCalculationList: [],
-                  allItemsCalculation: {
-                    master_bed: [],
-                    child_bed: [],
-                    guest_bed: [],
-                    living_room: [],
-                    kitchen: [],
-                    studio: []
-                  },
-                  // editable: true,
-                  // isDragging: false,
-                  // delayedDragging: false
-                };
+      return {
+        movingList: [
+          {name: 'Mirror', iconClass: 'icon-1', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Tea Cart', iconClass: 'icon-2', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Serving Cart', iconClass: 'icon-3', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Fireplace Equipment', iconClass: 'icon-4', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Magazine Rack', iconClass: 'icon-5', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'TV Stand', iconClass: 'icon-6', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Picture 2x2', iconClass: 'icon-7', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Picture 3x3', iconClass: 'icon-8', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Picture 4x4', iconClass: 'icon-9', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Clothes Basket', iconClass: 'icon-10', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Clothes Hamper', iconClass: 'icon-11', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Ferns/Plant Stand', iconClass: 'icon-12', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Power Tool Hand', iconClass: 'icon-13', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Power Tool Stand', iconClass: 'icon-14', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Suitcase', iconClass: 'icon-15', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Tackle Box', iconClass: 'icon-16', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Waste Paper Basket', iconClass: 'icon-17', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Wheel Chair', iconClass: 'icon-18', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Wheel Chair Scooter', iconClass: 'icon-19', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Ironing Table', iconClass: 'icon-20', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Bathinette', iconClass: 'icon-21', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Ladder 6 8 Steps', iconClass: 'icon-22', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Ladder Extension', iconClass: 'icon-23', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Umbrella', iconClass: 'icon-24', weight: 20, area: 4, itemType: 'Accessories'},
+          {name: 'Box, Dish Pack', iconClass: 'icon-59', weight: 20, area: 4, itemType: 'Boxes'},
+          {name: 'Box, Large', iconClass: 'icon-60', weight: 20, area: 4, itemType: 'Boxes'},
+          {name: 'Box, Medium', iconClass: 'icon-61', weight: 20, area: 4, itemType: 'Boxes'},
+          {name: 'Box, Small', iconClass: 'icon-62', weight: 20, area: 4, itemType: 'Boxes'},
+          {name: 'Box, Book', iconClass: 'icon-63', weight: 20, area: 4, itemType: 'Boxes'},
+          {name: 'Box, Extra Large', iconClass: 'icon-64', weight: 20, area: 4, itemType: 'Boxes'},
+          {name: 'Box, Wardrobe', iconClass: 'icon-65', weight: 20, area: 4, itemType: 'Boxes'},
+          {name: 'Bed, Bunk', iconClass: 'icon-44', weight: 20, area: 4, itemType: 'Beds'},
+          {name: 'Bed, King', iconClass: 'icon-45', weight: 20, area: 4, itemType: 'Beds'},
+          {name: 'Bed, Queen', iconClass: 'icon-46', weight: 20, area: 4, itemType: 'Beds'},
+          {name: 'Bed, Rollaway', iconClass: 'icon-47', weight: 20, area: 4, itemType: 'Beds'},
+          {name: 'Bed, Single/Hollywood', iconClass: 'icon-48', weight: 20, area: 4, itemType: 'Beds'},
+          {name: 'Bed, Standard/Double', iconClass: 'icon-49', weight: 20, area: 4, itemType: 'Beds'},
+          {name: 'Bed, Waterbed Base', iconClass: 'icon-50', weight: 20, area: 4, itemType: 'Beds'},
+          {name: 'Bed, Full Size', iconClass: 'icon-51', weight: 20, area: 4, itemType: 'Beds'},
+          {name: 'Bed, King Mattress', iconClass: 'icon-52', weight: 20, area: 4, itemType: 'Beds'},
+          {name: 'Bed, Queen Mattress', iconClass: 'icon-53', weight: 20, area: 4, itemType: 'Beds'},
+          {name: 'Bed, Single', iconClass: 'icon-54', weight: 20, area: 4, itemType: 'Beds'},
+          {name: 'Bed, Full Size', iconClass: 'icon-55', weight: 20, area: 4, itemType: 'Beds'},
+          {name: 'Bed, Day Bed', iconClass: 'icon-56', weight: 20, area: 4, itemType: 'Beds'},
+          {name: 'Bed, Folding Cot', iconClass: 'icon-57', weight: 20, area: 4, itemType: 'Beds'},
+          {name: 'Bed, Youth', iconClass: 'icon-58', weight: 20, area: 4, itemType: 'Beds'},
+          {name: 'Microwave Oven', iconClass: 'icon-25', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Refrigerator', iconClass: 'icon-26', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Dehumidifier', iconClass: 'icon-27', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Dishwasher', iconClass: 'icon-28', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Dryer', iconClass: 'icon-29', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Fan', iconClass: 'icon-30', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Freezer, 10 or less', iconClass: 'icon-31', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Freezer, 11 or 15', iconClass: 'icon-32', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Freezer, 16 or higher', iconClass: 'icon-33', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Gas/Electric Heater', iconClass: 'icon-34', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Range 30/', iconClass: 'icon-36', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Refrigerator (CuCp) 6cu. ft. or less', iconClass: 'icon-38', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Refrigerator (CuCp) 7 or 10 cu. ft. ', iconClass: 'icon-39', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Trash Compactor', iconClass: 'icon-40', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Vacuum Cleaner', iconClass: 'icon-41', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Washing Machine', iconClass: 'icon-42', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Stackable Washer/Dryer', iconClass: 'icon-43', weight: 20, area: 4, itemType: 'Appliances'},
+          {name: 'Computer System', iconClass: 'icon-78', weight: 20, area: 4, itemType: 'Electronics'},
+          {name: 'Lamp', iconClass: 'icon-79', weight: 20, area: 4, itemType: 'Electronics'},
+          {name: 'Stereo Component', iconClass: 'icon-80', weight: 20, area: 4, itemType: 'Electronics'},
+          {name: 'Table Radio', iconClass: 'icon-81', weight: 20, area: 4, itemType: 'Electronics'},
+          {name: 'TV 36"', iconClass: 'icon-82', weight: 20, area: 4, itemType: 'Electronics'},
+          {name: 'TV 40"', iconClass: 'icon-83', weight: 20, area: 4, itemType: 'Electronics'},
+          {name: 'TV 60"', iconClass: 'icon-84', weight: 20, area: 4, itemType: 'Electronics'},
+          {name: 'AirConditioner', iconClass: 'icon-85', weight: 20, area: 4, itemType: 'Electronics'},
+          {name: 'Electronic Piano/Keyboard', iconClass: 'icon-86', weight: 20, area: 4, itemType: 'Electronics'},
+          {name: 'Copy Machine', iconClass: 'icon-87', weight: 20, area: 4, itemType: 'Electronics'},
+        ],
+        // movingList2: {
+        //   accessories: [
+        //     {name: 'dresser', iconClass: 'flaticon-wardrobe', weight: 30, area: 4.5},
+        //   ],
+        //   boxes: [],
+        //   beds: [
+        //     {name: 'bed', iconClass: 'flaticon-bed', weight: 40, area: 35},
+        //   ],
+        //   appliances: [
+        //     {name: 'fridge', iconClass: 'flaticon-refrigerator', weight: 20, area: 4}
+        //   ],
+        //   electronics: [
+        //     {name: 'table lamp', iconClass: 'flaticon-table-lamp', weight: 30, area: 4.5, itemType: 'Appliances'},
+        //     {name: 'microwave oven', iconClass: 'flaticon-microwave', weight: 20, area: 4, itemType: 'Appliances'}
+        //   ],
+        //   outdoor: [],
+        //   home_storage_unit: [],
+        //   miscellaneous: [],
+        //   sports: [],
+        //   soft_furniture_carpets: [],
+        //   tables_chairs: [
+        //     {name: 'chair', iconClass: 'flaticon-chair', weight: 20, area: 4},
+        //     {name: 'table', iconClass: 'flaticon-desk', weight: 40, area: 8},
+        //   ]
+        //
+        // },
+        movingRoomNo: null,
+        activeRoom: 'Master Bed',
+        activeItemCategory: 'Accessories',
+        itemCategories: ['Accessories', 'Boxes', 'Beds', 'Appliances', 'Electronics', 'Outdoor', 'Home Storage Unit', 'Miscellaneous', 'Sports', 'Soft Furniture & Carpets', 'Tables & Chairs'],
+        calculationList: [],
+        modCalculationList: [],
+        allItemsCalculation: {
+          master_bed: [],
+          child_bed: [],
+          guest_bed: [],
+          living_room: [],
+          kitchen: [],
+          studio: []
+        },
+        // editable: true,
+        // isDragging: false,
+        // delayedDragging: false
+      };
+    },
+
+            computed: {
+              rooms() {
+                if (this.movingRoomNo === 1) {
+                  return ['Master Bed', 'Kitchen', 'Living Space']
+                } else {
+                  return ['Master Bed', 'Kitchen']
+                }
               },
 
-              mounted() {
-                // if(!(this.activeRoom in this.allItemsCalculation)){
-                //   this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()] = []
-                //   console.log(this.allItemsCalculation)
-                // }
-
-                // for(let room in this.allItemsCalculation){
-                //   console.log(room)
-                // }
+              movingListString() {
+                return JSON.stringify(this.movingList, null, 2);
               },
 
-              methods: {
-                cloned(evt) {
-                  console.log(this.activeRoom)
-                  if(this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].length > 0){
-                    const existingItem = this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].find(element => element.item.name === evt.added.element.name)
-                    if(existingItem){
-                      existingItem.qty += 1
-                    }else{
-                      let addingItem = {
-                        item: evt.added.element,
-                        qty: 1
-                      }
-                      this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].push(addingItem)
-                    }
-                  }else{
+              calculationListString() {
+                return JSON.stringify(this.calculationList, null, 2);
+              },
+
+              getTotalCalculatedWeight() {
+                let totalWeight = 0
+                for (let item of this.calculationList) {
+                  totalWeight += item.weight
+                }
+                return totalWeight
+              },
+
+              getTotalSqft() {
+                let totalSqft = 0
+                for (let item of this.calculationList) {
+                  totalSqft += item.area
+                }
+                return totalSqft
+              },
+
+              itemsInActiveRoom() {
+                return this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()]
+              },
+
+              filteredItems() {
+                return this.movingList.filter(item => item.itemType === this.activeItemCategory)
+                // console.log(filteredMovingList)
+              },
+            },
+
+            mounted() {
+              // if(!(this.activeRoom in this.allItemsCalculation)){
+              //   this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()] = []
+              //   console.log(this.allItemsCalculation)
+              // }
+
+              // for(let room in this.allItemsCalculation){
+              //   console.log(room)
+              // }
+            },
+
+            methods: {
+              cloned(evt) {
+                console.log(this.activeRoom)
+                if (this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].length > 0) {
+                  const existingItem = this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].find(element => element.item.name === evt.added.element.name)
+                  if (existingItem) {
+                    existingItem.qty += 1
+                  } else {
                     let addingItem = {
                       item: evt.added.element,
                       qty: 1
                     }
                     this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].push(addingItem)
                   }
-                  // console.log(this.calculationList)
-                  console.log(this.allItemsCalculation)
-                },
-
-                moved(evt){
-                  console.log(evt)
-                },
-
-                activateRoom(room){
-                  this.activeRoom = room
-                  // if(!(room.trim().replace(' ', '_').toLowerCase() in this.allItemsCalculation)){
-                  //   this.allItemsCalculation[room.trim().replace(' ', '_').toLowerCase()] = []
-                  // }
-
-                  // this.itemsInActiveRoom()
-
-                  console.log(this.allItemsCalculation)
-                },
-
-                activateCategory(category){
-                  this.activeItemCategory = category
-                  this.filterItems()
-                },
-
-                filterItems(){
-                  const filteredMovingList = this.movingList.filter(item=>item.itemType===this.activeItemCategory)
-                  return filteredMovingList
-                  // console.log(filteredMovingList)
-                },
-
-                itemQuantity(itemName){
-                  let multipleEntry = this.calculationList.filter(item => item.name === itemName)
-                  return multipleEntry.length
-                },
-
-                activeRoomItems(){
-                  return this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()]
+                } else {
+                  let addingItem = {
+                    item: evt.added.element,
+                    qty: 1
+                  }
+                  this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()].push(addingItem)
                 }
+                console.log(this.allItemsCalculation)
+                console.log(evt.added.element.name)
+                console.log(this.calculationList)
               },
+
+              moved(evt) {
+                console.log(evt)
+              },
+
+              activateRoom(room) {
+                this.activeRoom = room
+                // if(!(room.trim().replace(' ', '_').toLowerCase() in this.allItemsCalculation)){
+                //   this.allItemsCalculation[room.trim().replace(' ', '_').toLowerCase()] = []
+                // }
+
+                // this.itemsInActiveRoom()
+
+                console.log(this.allItemsCalculation)
+              },
+
+              activateCategory(category) {
+                this.activeItemCategory = category
+                // this.filterItems()
+              },
+
+              itemQuantity(itemName) {
+                let multipleEntry = this.calculationList.filter(item => item.name === itemName)
+                return multipleEntry.length
+              },
+
+              activeRoomItems() {
+                return this.allItemsCalculation[this.activeRoom.trim().replace(' ', '_').toLowerCase()]
+              },
+            },
         })
         new Vue({
             el: '#root',
