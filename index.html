@@ -374,6 +374,31 @@
         .item-detail-margin {
           margin-left: 15rem;
         }
+        
+        .summeryBtn {
+          padding: 10px 20px;
+          border: none;
+          background-color: #ACFF65;
+          cursor: pointer;
+          margin-top: 10px;
+          font-size: 1.1em;
+        }
+
+        .summery-inventory {
+          width: 60%;
+          max-width: 900px;
+          background-color: aliceblue;
+        }
+
+        .summery-icon-display{
+          display: inline-block;
+          margin-right: 10px;
+          width: 46px;
+          height: 46px;
+          border: 1px solid black;
+          border-radius: 5px;
+          background: url("../assets/sprite.gif");
+        }
     </style>
 </head>
 <body>
@@ -396,7 +421,7 @@
         Vue.component('WeightCalculator', {
             template:`
             <div class="container-fluid">
-              <div class="container">
+              <div class="container" v-show="displaySummery === false">
                 <div class="row quote-calculation">
                   <div class="small-column rooms-list-area">
                     <ul class="room-list">
@@ -416,7 +441,7 @@
                     >
                       <div v-for="(element, index) in itemsInActiveRoom" :key="index">
                         <!--{{ element.item.name }}-->
-                        <span class="calculation-item" :class="element.item.iconClass" @click="removeFromCalculationList(element)"></span>
+                        <span class="calculation-item" :class="element.item.iconClass" @mouseover="showItemDetail(element.item)" @mouseleave="hideDetail" @click="removeFromCalculationList(element)"></span>
                         <span v-show="element.qty > 1" class="qtyBadge">{{ element.qty }}</span>
                       </div>
                     </draggable>
@@ -458,6 +483,55 @@
                   <span>Total Items: <strong>{{ calculationList.length }}</strong>; Total Weight: <strong>{{ getTotalCalculatedWeight }}</strong> lbs; Total Volume: <strong>{{ getTotalVolume }}</strong> cu. ft.</span>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <span class="item-detail-margin"><span>{{ itemDetail.name }}</span> <span v-show="itemDetail.weight">({{itemDetail.weight}} lbs)</span></span>
+                </div>
+
+                <div class="row">
+                  <div class="display-inventory-summery">
+                    <button class="summeryBtn" @click.prevent="displaySummery = true">Inventory Summery</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="container summery-container" v-show="displaySummery === true">
+                <div class="summery-inventory">
+                  <div class="row">
+                    <h3>MOVE DETAILS</h3>
+                    <div>
+                      <div class="map-area"></div>
+                      <div class="moving-info-area">
+                        <p><strong>Moving From:</strong> Some Place</p>
+                        <p><strong>Moving To:</strong> Some Other Place</p>
+                        <p><strong>Approx. Distance:</strong> Unknown</p>
+                        <p><strong>Move Date:</strong> Unknown</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row total-summery">
+                    <h3>SUMMERY</h3>
+                    <div>
+                      <p><strong>Total Items: </strong> {{calculationList.length}}</p>
+                      <hr>
+                      <p><strong>Total Weight: </strong>{{ getTotalCalculatedWeight }} lbs</p>
+                      <hr>
+                      <strong>Total Volume: </strong>{{ getTotalVolume }} cu. ft.
+                      <hr>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <h3>ROOMS</h3>
+                    <hr>
+                    <div class="row" v-for="(room, index) in rooms" :key="index">
+                      <div v-show="allItemsCalculation[room.trim().replace(' ', '_').toLowerCase()].length > 0">
+                        <h3>{{room}}</h3>
+                        <div class="row item-lines" v-for="(item, index) in allItemsCalculation[room.trim().replace(' ', '_').toLowerCase()]" :key="index">
+                          <div><span class="summery-icon-display" :class="item.item.iconClass"></span><strong>{{item.item.name}}</strong> ({{item.item.weight}} lbs each); <strong>Qty: </strong>{{item.qty}}; <strong>Total Weight:</strong> {{item.qty * item.item.weight}} lbs; <strong>Total Volume:</strong> {{item.qty * item.item.volume}} sqft</div>
+                        </div>
+                        <hr>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -515,7 +589,7 @@
                   {name: 'Bed, Folding Cot', iconClass: 'icon-57', weight: 70, volume: 10, itemType: 'Beds'},
                   {name: 'Bed, Youth', iconClass: 'icon-58', weight: 210, volume: 30, itemType: 'Beds'},
                   {name: 'Microwave Oven', iconClass: 'icon-25', weight: 70, volume: 10, itemType: 'Appliances'},
-                  {name: 'Refrigerator', iconClass: 'icon-26', weight: 70, volume: 10, itemType: 'Appliances'},
+                  {name: 'Refrigerator', iconClass: 'icon-26', weight: 210, volume: 10, itemType: 'Appliances'},
                   {name: 'Dehumidifier', iconClass: 'icon-27', weight: 70, volume: 10, itemType: 'Appliances'},
                   {name: 'Dishwasher', iconClass: 'icon-28', weight: 140, volume: 20, itemType: 'Appliances'},
                   {name: 'Dryer', iconClass: 'icon-29', weight: 175, volume: 25, itemType: 'Appliances'},
@@ -602,11 +676,15 @@
                   {name: 'Bar', iconClass: 'icon-120', weight: 140, volume: 20, itemType: 'Home Storage Units'},
                   {name: 'Small Book Case', iconClass: 'icon-121', weight: 70, volume: 10, itemType: 'Home Storage Units'},
                   {name: 'Medium Book Case', iconClass: 'icon-122', weight: 105, volume: 15, itemType: 'Home Storage Units'},
+                  {name: 'Cabinet (File)', iconClass: 'icon-124', weight: 140, volume: 10, itemType: 'Miscellaneous'},
                   {name: 'Filing Cabinet 2 doors', iconClass: 'icon-123', weight: 70, volume: 10, itemType: 'Miscellaneous'},
                   {name: 'Filing Cabinet 4 doors', iconClass: 'icon-124', weight: 140, volume: 20, itemType: 'Miscellaneous'},
                   {name: 'Filing Cabinet Cardboard', iconClass: 'icon-125', weight: 21, volume: 3, itemType: 'Miscellaneous'},
                   {name: 'Footlockers', iconClass: 'icon-126', weight: 35, volume: 5, itemType: 'Miscellaneous'},
                   {name: 'Metal Shelves', iconClass: 'icon-127', weight: 35, volume: 5, itemType: 'Miscellaneous'},
+                  {name: 'Gun Safe, Small', iconClass: 'icon-131', weight: 300, volume: 10, itemType: 'Miscellaneous'},
+                  {name: 'Gun Safe, Medium', iconClass: 'icon-131', weight: 600, volume: 15, itemType: 'Miscellaneous'},
+                  {name: 'Gun Safe, Large', iconClass: 'icon-131', weight: 1200, volume: 20, itemType: 'Miscellaneous'},
                   {name: 'Tool Chest Large', iconClass: 'icon-128', weight: 105, volume: 15, itemType: 'Miscellaneous'},
                   {name: 'Tool Chest Medium', iconClass: 'icon-129', weight: 70, volume: 10, itemType: 'Miscellaneous'},
                   {name: 'Filing Cabinet 5 doors', iconClass: 'icon-130', weight: 175, volume: 25, itemType: 'Miscellaneous'},
@@ -620,11 +698,12 @@
                   {name: 'Play pen', iconClass: 'icon-138', weight: 70, volume: 10, itemType: 'Miscellaneous'},
                   {name: 'Outdoor Child\'s Gym', iconClass: 'icon-139', weight: 140, volume: 20, itemType: 'Miscellaneous'},
                   {name: 'Outdoor Child\'s Slide', iconClass: 'icon-140', weight: 70, volume: 10, itemType: 'Miscellaneous'},
-                  {name: 'Piano, Baby Gr/Upr', iconClass: 'icon-141', weight: 490, volume: 70, itemType: 'Miscellaneous'},
-                  {name: 'Piano, Parlor Gr', iconClass: 'icon-142', weight: 560, volume: 80, itemType: 'Miscellaneous'},
+                  {name: 'Piano, Baby Grand', iconClass: 'icon-141', weight: 800, volume: 70, itemType: 'Miscellaneous'},
+                  {name: 'Piano, Upright', iconClass: 'icon-142', weight: 600, volume: 70, itemType: 'Miscellaneous'},
+                  {name: 'Piano, Grand', iconClass: 'icon-142', weight: 1200, volume: 80, itemType: 'Miscellaneous'},
                   {name: 'Piano, Spinet/Console', iconClass: 'icon-143', weight: 420, volume: 60, itemType: 'Miscellaneous'},
                   {name: 'Portable Record Player', iconClass: 'icon-144', weight: 14, volume: 2, itemType: 'Miscellaneous'},
-                  {name: 'Guitar', iconClass: 'icon-145', weight: 105, volume: 15, itemType: 'Miscellaneous'},
+                  {name: 'Guitar', iconClass: 'icon-145', weight: 60, volume: 15, itemType: 'Miscellaneous'},
                   {name: 'Bicycle', iconClass: 'icon-184', weight: 35, volume: 5, itemType: 'Sports'},
                   {name: 'Bowling Ball & Bag', iconClass: 'icon-185', weight: 21, volume: 3, itemType: 'Sports'},
                   {name: 'Elliptical Machine', iconClass: 'icon-186', weight: 280, volume: 40, itemType: 'Sports'},
@@ -718,12 +797,14 @@
                   guest_bed: [],
                   living_room: [],
                   kitchen: [],
+                  dining: [],
                   studio: []
                 },
                 itemDetail: {
                   name: '',
                   weight: null
-                }
+                },
+                displaySummery: false
                 // editable: true,
                 // isDragging: false,
                 // delayedDragging: false
@@ -732,10 +813,14 @@
             
             computed: {
               rooms() {
-                if (this.movingRoomNo === 1) {
-                  return ['Master Bed', 'Kitchen', 'Living Space']
-                } else {
-                  return ['Master Bed', 'Kitchen']
+                if (this.movingRoomNo === 2) {
+                  return ['Master Bed', 'Guest Bed', 'Living Room', 'Kitchen', 'Dining']
+                }else if(this.movingRoomNo === 3) {
+                  return ['Master Bed', 'Child Bed', 'Living Room', 'Kitchen', 'Dining', 'Guest Bed']
+                }else {
+                  return ['Master Bed', 'Guest Bed', 'Living Room', 'Kitchen', 'Dining']
+
+                  // Master, Children, Living, Kitchen, Dining,
                 }
               },
 
